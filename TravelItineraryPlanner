@@ -1,0 +1,115 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Destination {
+    String name;
+    String date;
+    String preferences;
+
+    public Destination(String name, String date, String preferences) {
+        this.name = name;
+        this.date = date;
+        this.preferences = preferences;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Destination: %s, Date: %s, Preferences: %s", name, date, preferences);
+    }
+}
+
+public class TravelItineraryPlanner {
+
+    private static ArrayList<Destination> itinerary = new ArrayList<>();
+    private static double totalBudget = 0.0;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        System.out.println("Welcome to the Travel Itinerary Planner!");
+
+        do {
+            // Display menu
+            System.out.println("\nPlease choose an option:");
+            System.out.println("1. Add Destination");
+            System.out.println("2. View Itinerary");
+            System.out.println("3. Add Budget");
+            System.out.println("4. View Total Budget");
+            System.out.println("5. Exit");
+            System.out.print("Your choice: ");
+
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addDestination(scanner);
+                    break;
+                case 2:
+                    viewItinerary();
+                    break;
+                case 3:
+                    addBudget(scanner);
+                    break;
+                case 4:
+                    viewTotalBudget();
+                    break;
+                case 5:
+                    System.out.println("Thank you for using the Travel Itinerary Planner. Safe travels!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+            }
+
+        } while (choice != 5);
+
+        scanner.close();
+    }
+
+    // Method to add a destination
+    private static void addDestination(Scanner scanner) {
+        System.out.print("Enter destination name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter travel date (e.g., YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+
+        System.out.print("Enter preferences or notes: ");
+        String preferences = scanner.nextLine();
+
+        Destination destination = new Destination(name, date, preferences);
+        itinerary.add(destination);
+        System.out.println("Destination added successfully.");
+    }
+
+    // Method to view itinerary
+    private static void viewItinerary() {
+        if (itinerary.isEmpty()) {
+            System.out.println("Your itinerary is empty.");
+        } else {
+            System.out.println("\nYour Travel Itinerary:");
+            for (int i = 0; i < itinerary.size(); i++) {
+                System.out.printf("%d. %s\n", i + 1, itinerary.get(i));
+            }
+        }
+    }
+
+    // Method to add budget
+    private static void addBudget(Scanner scanner) {
+        System.out.print("Enter the amount to add to the budget: ");
+        double amount = scanner.nextDouble();
+
+        if (amount > 0) {
+            totalBudget += amount;
+            System.out.printf("%.2f has been added to your budget.\n", amount);
+        } else {
+            System.out.println("Budget amount must be positive.");
+        }
+    }
+
+    // Method to view total budget
+    private static void viewTotalBudget() {
+        System.out.printf("Your total budget is: %.2f\n", totalBudget);
+    }
+}
